@@ -27,7 +27,10 @@ class MainActivity : AppCompatActivity() {
             onItemSelectedListener = object: OnItemSelectedListener {
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                     p0?.run {
-                        nameTextView.text = getItemAtPosition(p2).toString()
+                        //Check that names is not out of bounds
+                        if (p2 >= 0 && p2 < names.size) {
+                            nameTextView.text = getItemAtPosition(p2).toString()
+                        }
                     }
                 }
 
@@ -37,8 +40,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<View>(R.id.deleteButton).setOnClickListener {
-            (names as MutableList).removeAt(spinner.selectedItemPosition)
-            (spinner.adapter as BaseAdapter).notifyDataSetChanged()
+            //Check that names is not empty
+            if (names.isNotEmpty()) {
+                (names as MutableList).removeAt(spinner.selectedItemPosition)
+                (spinner.adapter as BaseAdapter).notifyDataSetChanged()
+            }
         }
 
     }
